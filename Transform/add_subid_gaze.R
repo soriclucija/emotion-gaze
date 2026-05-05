@@ -4,9 +4,9 @@ library(stringr)
 library(dplyr)
 
 
-gaze_path  <- "C:/Users/lucij/Desktop/Leiden/Year 2/Internship/Data/Fixation_data/fixmat_AllPs_Table_GroupS_combinedEye.xlsx"
+gaze_path  <- "C:/Users/lucij/Desktop/Leiden/Year 2/Internship/Data/Updated_data/fixationCoordDataAllPs_image_GroupS_combinedEye.xlsx"
 behav_dir  <- "C:/Users/lucij/Desktop/Leiden/Year 2/Internship/Data/Complete_data/Proto_behavior/Behavior - S/S_csv" #change name when needed
-out_path   <- "C:/Users/lucij/Desktop/Leiden/Year 2/Internship/Data/Complete_data/Proto_behavior/Behavior - S/S_csv/fixmat_GroupS_with_subids.xlsx"
+out_path   <- "C:/Users/lucij/Desktop/Leiden/Year 2/Internship/Data/GroupS_warped.xlsx"
 
 
 extract_group <- function(filename) {
@@ -49,7 +49,7 @@ build_participant_map <- function(behav_dir) {
   sub_ids <- sapply(files, extract_sub_id)
   
   map_df <- data.frame(
-    Participant = seq_along(files),
+    participant = seq_along(files),
     sub_id      = unname(sub_ids),
     source_file = files,
     stringsAsFactors = FALSE
@@ -58,7 +58,7 @@ build_participant_map <- function(behav_dir) {
   cat("\nParticipant mapping:\n")
   for (i in seq_len(nrow(map_df))) {
     cat(sprintf("  Participant %3d  →  %s  (%s)\n",
-                map_df$Participant[i], map_df$sub_id[i], map_df$source_file[i]))
+                map_df$participant[i], map_df$sub_id[i], map_df$source_file[i]))
   }
   
   map_df
@@ -92,7 +92,7 @@ if (length(missing) > 0) {
 
 # add sub_id and group column
 df <- df %>%
-  left_join(participant_map %>% select(Participant, sub_id), by = "Participant") %>%
+  left_join(participant_map %>% select(participant, sub_id), by = "participant") %>%
   mutate(group = group)
 
 write_xlsx(df, out_path)
@@ -102,7 +102,7 @@ cat(sprintf("  Rows: %s  |  New columns: sub_id, group\n",
 
 cat("\nSample of added columns:\n")
 df %>%
-  select(Participant, sub_id, group) %>%
+  select(participant, sub_id, group) %>%
   distinct() %>%
   head(10) %>%
   print()
