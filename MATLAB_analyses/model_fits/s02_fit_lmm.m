@@ -4,7 +4,7 @@ clc
 %% SET THIS — same folder as s01
 project_root = 'C:\Users\lucij\Desktop\Leiden\Year 2\Internship\imap4_results';
 
-imap_folder = fullfile(project_root, 'iMap4');
+imap_folder = fullfile(project_root, 'iMap4-master');
 addpath(genpath(imap_folder));
 
 load(fullfile(project_root, 'fixmap_data.mat'));
@@ -12,7 +12,6 @@ load(fullfile(project_root, 'fixmap_data.mat'));
 fprintf('Loaded fixmap_data.mat\n');
 fprintf('Map size: %d x %d  |  Mask pixels: %d (%.1f%%)\n', ...
     xSize, ySize, sum(masktmp(:)), 100*mean(masktmp(:)));
-
 
 %% FIT LMM
 fprintf('\nFitting LMM on %d maps, %d pixels...\n', Nitem, sum(masktmp(:)));
